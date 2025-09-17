@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELL Vocabulary Bridge - Thomas Hooker Elementary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .course-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .course-header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .course-header .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .stats-banner {
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .module-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+        }
+        
+        .module-title {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .module-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .interaction-type {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .duration {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+        
+        .demo-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .demo-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .vocabulary-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .ladder-step {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .ladder-step:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .ladder-step.expanded {
+            background: linear-gradient(45deg, #00b894, #00a085);
+        }
+        
+        .step-level {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .step-example {
+            margin-top: 10px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        
+        .step-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .step-details.show {
+            display: block;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(45deg, #ff7675, #d63031);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .assessment-simulator {
+            background: rgba(240, 245, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        .grade-tag {
+            background: #3498db;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .course-header h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-banner {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="course-header">
+            <h1>ELL Vocabulary Bridge</h1>
+            <div class="subtitle">Building Academic Language Pathways K-5</div>
+            <div class="subtitle" style="font-size: 1rem; color: #95a5a6;">Thomas Hooker Elementary Professional Development Course</div>
+            
+            <div class="stats-banner">
+                <div class="stat-item">
+                    <span class="stat-number">21.6%</span>
+                    <span class="stat-label">2nd Graders Above 25th Percentile</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">85.5%</span>
+                    <span class="stat-label">Students Making ELA Growth</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">K-5</span>
+                    <span class="stat-label">Vertical Alignment Target</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="modules-grid">
+            <div class="module-card" onclick="toggleModule(this)">
+                <div class="interaction-type">Data Dashboard Simulation</div>
+                <div class="module-title">Module 1: Reading the Data Story</div>
+                <div class="module-description">
+                    Analyze real Thomas Hooker AimsWeb data to identify vocabulary patterns and predict future challenges. Interactive dashboard walks you through identifying at-risk students and vocabulary gap trends.
+                </div>
+                <div class="duration">⏱️ 25 minutes</div>
+            </div>
+
+            <div class="module-card" onclick="toggleModule(this)">
+                <div class="interaction-type">Question Type Matching</div>
+                <div class="module-title">Module 2: Assessment Archaeology</div>
+                <div class="module-description">
+                    Deconstruct 4th-5th grade SBA questions to identify vocabulary demands, then reverse-engineer K-3 activities that build these skills progressively.
+                </div>
+                <div class="duration">⏱️ 30 minutes</div>
+            </div>
+
+            <div class="module-card" onclick="toggleModule(this)">
+                <div class="interaction-type">Lesson Plan Makeover</div>
+                <div class="module-title">Module 3: CKLA Enhancement Lab</div>
+                <div class="module-description">
+                    Transform existing CKLA lessons with vocabulary scaffolds, context clue strategies, and academic language bridges. See before/after examples and practice with your own lessons.
+                </div>
+                <div class="duration">⏱️ 35 minutes</div>
+            </div>
+
+            <div class="module-card" onclick="toggleModule(this)">
+                <div class="interaction-type">Branching Scenario</div>
+                <div class="module-title">Module 4: Context Clue Detective</div>
+                <div class="module-description">
+                    Navigate real classroom scenarios where students struggle with vocabulary. Practice identifying context clue types and selecting appropriate instructional responses.
+                </div>
+                <div class="duration">⏱️ 20 minutes</div>
+            </div>
+
+            <div class="module-card" onclick="toggleModule(this)">
+                <div class="interaction-type">Assessment Design Studio</div>
+                <div class="module-title">Module 5: Predictive Assessment Creation</div>
+                <div class="module-description">
+                    Design formative assessments that predict SBA readiness while honoring students' bilingual strengths. Build your assessment toolkit with templates and rubrics.
+                </div>
+                <div class="duration">⏱️ 40 minutes</div>
+            </div>
+
+            <div class="module-card" onclick="toggleModule(this)">
+                <div class="interaction-type">Collaboration Planning Tool</div>
+                <div class="module-title">Module 6: Vertical Team Building</div>
+                <div class="module-description">
+                    Create a K-5 vocabulary scope and sequence with your grade-level team. Interactive planning tools help coordinate instruction and track student progress across grades.
+                </div>
+                <div class="duration">⏱️ 45 minutes</div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <div class="demo-title">🎯 Interactive Preview: Academic Language Ladder</div>
+            <div class="vocabulary-ladder">
+                <div class="ladder-step" onclick="toggleStep(this)">
+                    <div class="step-level">Grade 5 Academic Language</div>
+                    <div class="step-example">"Analyze the author's use of figurative language to convey meaning"</div>
+                    <div class="step-details">
+                        <strong>Vocabulary Demands:</strong> analyze, author, figurative language, convey, meaning<br>
+                        <strong>Cognitive Load:</strong> Abstract thinking, text analysis, inference
+                    </div>
+                </div>
+                
+                <div class="ladder-step" onclick="toggleStep(this)">
+                    <div class="step-level">Grade 3 Bridge Language</div>
+                    <div class="step-example">"What does the author mean when they say...?"</div>
+                    <div class="step-details">
+                        <strong>Vocabulary Scaffolds:</strong> author (writer), mean (trying to say)<br>
+                        <strong>Bridge Activities:</strong> Compare literal vs. non-literal meanings
+                    </div>
+                </div>
+                
+                <div class="ladder-step" onclick="toggleStep(this)">
+                    <div class="step-level">Grade 1 Foundation Language</div>
+                    <div class="step-example">"The author is the person who wrote this story"</div>
+                    <div class="step-details">
+                        <strong>Building Blocks:</strong> Connect "author" to "writer" in home language<br>
+                        <strong>Visual Supports:</strong> Photo of author, connection to student writing
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="assessment-simulator">
+            <h3 style="color: #2c3e50; margin-bottom: 20px;">📊 Assessment Question Progression Example</h3>
+            
+            <div class="question-card">
+                <div class="grade-tag">Grade 2 Foundation</div>
+                <strong>Question:</strong> "Circle the word that tells us how Maria felt."<br>
+                <em>Context clue type: Direct emotional descriptor</em>
+            </div>
+            
+            <div class="question-card">
+                <div class="grade-tag">Grade 4 Bridge</div>
+                <strong>Question:</strong> "What does the word 'discouraged' tell us about Maria's feelings? Use details from the text."<br>
+                <em>Context clue type: Inference from surrounding details</em>
+            </div>
+            
+            <div class="question-card">
+                <div class="grade-tag">Grade 5 Target</div>
+                <strong>Question:</strong> "Analyze how the author develops Maria's emotional journey throughout the passage. Cite specific textual evidence."<br>
+                <em>Context clue type: Multiple inference points, synthesis</em>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="startCourse()">Begin Course Journey</button>
+            <button class="btn btn-secondary" onclick="viewResources()">Download Resource Kit</button>
+            <button class="btn btn-primary" onclick="scheduleCoaching()" style="background: linear-gradient(45deg, #00b894, #00a085);">Schedule Coaching Support</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleModule(element) {
+            element.style.transform = element.style.transform === 'scale(1.05)' ? 'scale(1)' : 'scale(1.05)';
+            element.style.background = element.style.background.includes('rgba(116, 185, 255') ? 'rgba(255, 255, 255, 0.95)' : 'rgba(116, 185, 255, 0.1)';
+            
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+            }, 200);
+        }
+        
+        function toggleStep(step) {
+            const details = step.querySelector('.step-details');
+            const isExpanded = step.classList.contains('expanded');
+            
+            // Close all steps first
+            document.querySelectorAll('.ladder-step').forEach(s => {
+                s.classList.remove('expanded');
+                s.querySelector('.step-details').classList.remove('show');
+            });
+            
+            if (!isExpanded) {
+                step.classList.add('expanded');
+                details.classList.add('show');
+            }
+        }
+        
+        function startCourse() {
+            alert('🚀 Welcome to your ELL Vocabulary Bridge journey! In a real implementation, this would launch the full interactive course with progress tracking, peer collaboration tools, and personalized coaching support.');
+        }
+        
+        function viewResources() {
+            const resources = `
+📚 Your ELL Vocabulary Bridge Resource Kit includes:
+
+✅ CKLA Enhancement Templates (Grades K-3)
+✅ Context Clue Strategy Cards (English/Spanish)  
+✅ Academic Language Progression Charts
+✅ Formative Assessment Rubrics
+✅ Parent Communication Tools (Bilingual)
+✅ Vertical Planning Templates
+✅ Student Progress Tracking Sheets
+✅ SBA Question Bank (Vocabulary Focus)
+
+Ready to transform your ELL instruction? 🌟
+            `;
+            alert(resources);
+        }
+        
+        function scheduleCoaching() {
+            alert('👥 Personalized coaching support available! Schedule one-on-one sessions to practice lesson modifications, analyze student data, and develop your vertical vocabulary planning with our ELL specialists.');
+        }
+        
+        // Add subtle animations on scroll
+        window.addEventListener('scroll', () => {
+            const modules = document.querySelectorAll('.module-card');
+            modules.forEach((module, index) => {
+                const rect = module.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    module.style.animation = `fadeInUp 0.6s ease ${index * 0.1}s both`;
+                }
+            });
+        });
+        
+        // CSS for the animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
